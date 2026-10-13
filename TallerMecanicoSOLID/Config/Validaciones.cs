@@ -11,24 +11,26 @@ namespace TallerMecanicoSOLID.Configuracion
     /// </summary>
     public static class Validaciones
     {
+
         public static string SanitizarTexto(
-            string? texto,
-            int maxLongitud = 255)
+            string textoIngresado,
+            int cantidadMaximaDeCaracteres = 255)
         {
-            if (string.IsNullOrWhiteSpace(texto))
+            // Si el texto está vacío, devolver una cadena vacía.
+            if (string.IsNullOrWhiteSpace(textoIngresado))
             {
                 return string.Empty;
             }
 
-            // Normaliza espacios y elimina espacios exteriores.
-            string limpio = Regex.Replace(
-                texto.Trim(),
+            // Quitar los espacios exteriores y normalizar los espacios internos.
+            string textoLimpio = Regex.Replace(
+                textoIngresado.Trim(),
                 @"\s+",
                 " ");
 
-            // No truncamos el texto: la validación de longitud
-            // debe rechazar entradas demasiado largas.
-            return limpio;
+            // Devolver el texto limpio.
+            // La longitud se comprobará mediante las validaciones del modelo.
+            return textoLimpio;
         }
 
         public static bool EsIdValido(int id)
@@ -149,34 +151,60 @@ namespace TallerMecanicoSOLID.Configuracion
                 @"^[0-9+()\-\s]+$");
         }
 
-        public static bool ValidarCiNit(string? ciNit)
+
+        public static bool ValidarCiNit(string ciNitIngresado)
         {
-            if (string.IsNullOrWhiteSpace(ciNit))
+            // Comprobar que el CI/NIT no esté vacío.
+            if (string.IsNullOrWhiteSpace(ciNitIngresado))
             {
                 return false;
             }
 
-            ciNit = ciNit.Trim();
+            // Eliminar los espacios del principio y del final.
+            string ciNitSinEspacios = ciNitIngresado.Trim();
 
-            return ciNit.Length <= 20 &&
-                   SoloNumeros(ciNit);
+            // Comprobar que no supere los 20 caracteres.
+            if (ciNitSinEspacios.Length > 20)
+            {
+                return false;
+            }
+
+            // Comprobar que el CI/NIT contenga solamente números.
+            if (!SoloNumeros(ciNitSinEspacios))
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        public static bool ValidarPlaca(string? placa)
+
+
+        public static bool ValidarPlaca(string placaIngresada)
         {
-            if (string.IsNullOrWhiteSpace(placa))
+            // Comprobar que la placa no esté vacía.
+            if (string.IsNullOrWhiteSpace(placaIngresada))
             {
                 return false;
             }
 
-            placa = placa.Trim().ToUpperInvariant();
+            // Quitar los espacios exteriores y convertir las letras a mayúsculas.
+            string placaNormalizada = placaIngresada.Trim().ToUpperInvariant();
 
-            // Formato definido para este proyecto:
-            // 3 o 4 números seguidos de 3 letras.
-            return Regex.IsMatch(
-                placa,
+            // Comprobar que la placa tenga entre 3 y 4 números,
+            // seguidos de exactamente 3 letras.
+            bool tieneFormatoValido = Regex.IsMatch(
+                placaNormalizada,
                 @"^[0-9]{3,4}[A-Z]{3}$");
+
+            if (!tieneFormatoValido)
+            {
+                return false;
+            }
+
+            return true;
         }
+
 
         public static string FormatearPlaca(string? placa)
         {
@@ -229,5 +257,43 @@ namespace TallerMecanicoSOLID.Configuracion
             return kilometraje >= 0 &&
                    kilometraje <= 2000000;
         }
+
+        public static bool ValidarTipoServicio(string tipoServicioIngresado)
+        {
+            // Comprobar que se haya seleccionado un tipo de servicio.
+            if (string.IsNullOrWhiteSpace(tipoServicioIngresado))
+            {
+                return false;
+            }
+
+            // Eliminar los espacios del principio y del final.
+            string tipoServicioNormalizado = tipoServicioIngresado.Trim();
+
+            // Aceptar únicamente los tres tipos definidos para el sistema.
+            if (tipoServicioNormalizado.Equals(
+                "preventivo",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (tipoServicioNormalizado.Equals(
+                "correctivo",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (tipoServicioNormalizado.Equals(
+                "revisión simple",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            // Si no coincide con ninguna opción, el tipo no es válido.
+            return false;
+        }
+
     }
 }

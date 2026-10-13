@@ -8,8 +8,13 @@ namespace TallerMecanicoSOLID.Models
         [StringLength(120, ErrorMessage = "El nombre no puede superar 120 caracteres")]
         public string Nombre { get; set; } = "";
 
-        [Required(ErrorMessage = "Debe seleccionar un tipo")]
+
+        [Required(ErrorMessage = "Debe seleccionar un tipo de servicio")]
+        [RegularExpression(
+            @"^(preventivo|correctivo|revisión simple)$",
+            ErrorMessage = "Seleccione preventivo, correctivo o revisión simple")]
         public string Tipo { get; set; } = "";
+
 
         [Required(ErrorMessage = "La descripción es obligatoria")]
         [StringLength(255, ErrorMessage = "La descripción no puede superar 255 caracteres")]

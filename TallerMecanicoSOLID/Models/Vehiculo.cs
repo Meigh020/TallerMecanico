@@ -4,9 +4,12 @@ namespace TallerMecanicoSOLID.Models
 {
     public class Vehiculo : EntidadBase
     {
+
         [Required(ErrorMessage = "La placa es obligatoria")]
         [StringLength(7, MinimumLength = 6,
             ErrorMessage = "La placa debe tener entre 6 y 7 caracteres")]
+        [RegularExpression(@"^[0-9]{3,4}[A-Za-z]{3}$",
+            ErrorMessage = "La placa debe tener 3 o 4 números seguidos de 3 letras. Ejemplo: 5214BEX")]
         public string Placa { get; set; } = "";
 
         [Required(ErrorMessage = "La marca es obligatoria")]
@@ -19,7 +22,7 @@ namespace TallerMecanicoSOLID.Models
             ErrorMessage = "El modelo no puede superar 50 caracteres")]
         public string Modelo { get; set; } = "";
 
-        [Range(1901, 2100,
+        [Range(1901, 2026,
             ErrorMessage = "Ingrese un año válido")]
         public int Anio { get; set; }
 

@@ -14,8 +14,8 @@ namespace TallerMecanicoSOLID.Models
         public string Apellido { get; set; } = "";
 
         [Required(ErrorMessage = "El CI/NIT es obligatorio")]
-        [StringLength(30, ErrorMessage = "El CI/NIT no puede superar 30 caracteres")]
-        [RegularExpression("^[0-9]+$", ErrorMessage = "El CI/NIT debe contener solo dígitos")]
+        [StringLength(20, ErrorMessage = "El CI/NIT no puede superar 20 caracteres")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "El CI/NIT debe contener solo dígitos")]
         public string CiNit { get; set; } = "";
 
         [Required(ErrorMessage = "El teléfono es obligatorio")]
