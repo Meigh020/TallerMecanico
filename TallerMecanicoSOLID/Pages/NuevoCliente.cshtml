@@ -1,0 +1,177 @@
+﻿@page
+@model TallerMecanicoSOLID.Pages.NuevoClienteModel
+
+@{
+    ViewData["Title"] = "Nuevo Cliente";
+}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">
+            Nuevo Cliente
+        </h2>
+
+        <p class="text-muted mb-0">
+            Registrar un nuevo cliente del taller
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <form method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger small mb-3">
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label asp-for="Cliente.Nombre"
+                               class="form-label">
+                            Nombre
+                        </label>
+
+                        <input asp-for="Cliente.Nombre"
+                               class="form-control"
+                               maxlength="80"
+                               autocomplete="given-name"
+                               placeholder="Ej. Juan" />
+
+                        <span asp-validation-for="Cliente.Nombre"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Cliente.Apellido"
+                               class="form-label">
+                            Apellido
+                        </label>
+
+                        <input asp-for="Cliente.Apellido"
+                               class="form-control"
+                               maxlength="80"
+                               autocomplete="family-name"
+                               placeholder="Ej. Pérez" />
+
+                        <span asp-validation-for="Cliente.Apellido"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Cliente.CiNit"
+                               class="form-label">
+                            CI/NIT
+                        </label>
+
+                        <input asp-for="Cliente.CiNit"
+                               class="form-control"
+                               maxlength="20"
+                               inputmode="numeric"
+                               placeholder="Ej. 12345678" />
+
+                        <span asp-validation-for="Cliente.CiNit"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Cliente.Telefono"
+                               class="form-label">
+                            Teléfono
+                        </label>
+
+                        <input asp-for="Cliente.Telefono"
+                               class="form-control"
+                               maxlength="20"
+                               type="tel"
+                               autocomplete="tel"
+                               placeholder="Ej. 70707070" />
+
+                        <span asp-validation-for="Cliente.Telefono"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Cliente.Email"
+                               class="form-label">
+                            Correo electrónico
+                        </label>
+
+                        <input asp-for="Cliente.Email"
+                               class="form-control"
+                               maxlength="120"
+                               type="email"
+                               autocomplete="email"
+                               placeholder="Ej. cliente@correo.com" />
+
+                        <span asp-validation-for="Cliente.Email"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Cliente.Direccion"
+                               class="form-label">
+                            Dirección
+                        </label>
+
+                        <input asp-for="Cliente.Direccion"
+                               class="form-control"
+                               maxlength="200"
+                               autocomplete="street-address"
+                               placeholder="Ej. Av. América, Cochabamba" />
+
+                        <span asp-validation-for="Cliente.Direccion"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Cliente.Estado" class="form-label">
+                            Estado del cliente
+                        </label>
+
+                        <select asp-for="Cliente.Estado" class="form-select">
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+
+                        <span asp-validation-for="Cliente.Estado"
+                              class="text-danger small"></span>
+                    </div>
+
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a asp-page="/Clientes"
+                       class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>
+                        Guardar Cliente
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

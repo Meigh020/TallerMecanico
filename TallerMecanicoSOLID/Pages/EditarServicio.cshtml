@@ -1,0 +1,210 @@
+@page
+@model TallerMecanicoSOLID.Pages.EditarServicioModel
+
+@{
+    ViewData["Title"] = "Editar Servicio";
+}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">
+            Editar Servicio
+        </h2>
+
+        <p class="text-muted mb-0">
+            Actualizar información del servicio
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+
+            <form method="post">
+
+                <input type="hidden"
+                       asp-for="Token" />
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger small mb-3">
+                </div>
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Nombre
+                        </label>
+
+                        <input asp-for="Servicio.Nombre"
+                               class="form-control"
+                               placeholder="Ej. Cambio de aceite" />
+
+                        <span asp-validation-for="Servicio.Nombre"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">
+                            Tipo
+                        </label>
+
+                        <select asp-for="Servicio.Tipo"
+                                class="form-select">
+
+                            <option value="">
+                                -- Seleccione un tipo --
+                            </option>
+
+                            <option value="Mantenimiento preventivo">
+                                Mantenimiento preventivo
+                            </option>
+
+                            <option value="Mantenimiento correctivo">
+                                Mantenimiento correctivo
+                            </option>
+
+                            <option value="Diagnóstico">
+                                Diagnóstico
+                            </option>
+
+                            <option value="Reparación">
+                                Reparación
+                            </option>
+
+                            <option value="Revisión general">
+                                Revisión general
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="Servicio.Tipo"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">
+                            Descripción
+                        </label>
+
+                        <textarea asp-for="Servicio.Descripcion"
+                                  class="form-control"
+                                  rows="3"
+                                  placeholder="Describa en qué consiste el servicio"></textarea>
+
+                        <span asp-validation-for="Servicio.Descripcion"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Precio (Bs)
+                        </label>
+
+                        <input asp-for="Servicio.Precio"
+                               type="number"
+                               step="0.01"
+                               min="0"
+                               class="form-control" />
+
+                        <span asp-validation-for="Servicio.Precio"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Duración estimada
+                        </label>
+
+                        <input asp-for="Servicio.DuracionEstimada"
+                               type="number"
+                               min="1"
+                               class="form-control" />
+
+                        <span asp-validation-for="Servicio.DuracionEstimada"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            Unidad de duración
+                        </label>
+
+                        <select asp-for="Servicio.UnidadDuracion"
+                                class="form-select">
+
+                            <option value="">
+                                -- Seleccione una unidad --
+                            </option>
+
+                            <option value="minutos">
+                                Minutos
+                            </option>
+
+                            <option value="horas">
+                                Horas
+                            </option>
+
+                            <option value="días">
+                                Días
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="Servicio.UnidadDuracion"
+                              class="text-danger small">
+                        </span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="Servicio.Estado" class="form-label">
+                                Estado del servicio
+                        </label>
+
+                        <select asp-for="Servicio.Estado" class="form-select">
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+
+                        <span asp-validation-for="Servicio.Estado"
+                            class="text-danger small"></span>
+                    </div>
+
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="d-flex justify-content-end gap-2">
+
+                    <a asp-page="/Servicios"
+                       class="btn btn-secondary">
+                        Cancelar
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        <i class="bi bi-save me-1"></i>
+                        Guardar Cambios
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

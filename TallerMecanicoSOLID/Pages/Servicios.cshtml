@@ -1,0 +1,276 @@
+@page
+@model TallerMecanicoSOLID.Pages.ServiciosModel
+
+@{
+    ViewData["Title"] = "Servicios";
+}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">
+                Servicios
+            </h2>
+
+            <p class="text-muted mb-0">
+                Catálogo de servicios del taller
+            </p>
+        </div>
+
+        <a asp-page="/NuevoServicio"
+           class="btn btn-primary">
+
+            <i class="bi bi-plus-circle me-1"></i>
+            Nuevo Servicio
+
+        </a>
+
+    </div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+
+            <form method="get"
+                  class="row mb-3">
+
+                <div class="col-md-6">
+
+                    <div class="input-group">
+
+                        <span class="input-group-text">
+                            <i class="bi bi-search"></i>
+                        </span>
+
+                        <input type="text"
+                               name="buscar"
+                               value="@Model.Buscar"
+                               class="form-control"
+                               placeholder="Buscar por nombre, tipo o descripción..." />
+
+                        <button type="submit"
+                                class="btn btn-primary">
+
+                            Buscar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+            @if (TempData["Mensaje"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Mensaje"]
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["Error"]
+                </div>
+            }
+
+            @if (Model.ListaServicios.Count == 0)
+            {
+                if (!string.IsNullOrWhiteSpace(Model.Buscar))
+                {
+                    <div class="alert alert-info">
+                        No se encontraron servicios para "@Model.Buscar".
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-secondary">
+                        No hay servicios registrados.
+                    </div>
+                }
+            }
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+                            <th>N°</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Duración</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @for (int i = 0; i < Model.ListaServicios.Count; i++)
+                        {
+                            var servicio = Model.ListaServicios[i];
+                            var token = Model.GenerarToken(servicio.Id);
+
+                            <tr>
+
+                                <td>
+                                    @(i + 1)
+                                </td>
+
+                                <td class="fw-semibold">
+                                    @servicio.Nombre
+                                </td>
+
+                                <td>
+                                    @servicio.Tipo
+                                </td>
+
+                                <td>
+                                    @servicio.Descripcion
+                                </td>
+
+                                <td>
+                                    @servicio.Precio.ToString("0.00") Bs
+                                </td>
+
+                                <td>
+                                    @servicio.DuracionEstimada
+                                    @servicio.UnidadDuracion
+                                </td>
+
+                                <td>
+
+                                    @if (servicio.Estado)
+                                    {
+                                        <span class="badge bg-success">
+                                            Activo
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Inactivo
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <!-- EDITAR -->
+
+                                    <a asp-page="/EditarServicio"
+                                       asp-route-id="@token"
+                                       class="btn btn-sm btn-warning">
+
+                                        <i class="bi bi-pencil"></i>
+                                        Editar
+
+                                    </a>
+
+
+                                    <!-- ELIMINAR -->
+
+                                    <button type="button"
+                                            class="btn btn-sm btn-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalEliminarServicio-@servicio.Id">
+
+                                        <i class="bi bi-trash"></i>
+                                        Eliminar
+
+                                    </button>
+
+
+                                    <!-- MODAL ELIMINAR -->
+
+                                    <div class="modal fade"
+                                         id="modalEliminarServicio-@servicio.Id"
+                                         tabindex="-1"
+                                         aria-hidden="true">
+
+                                        <div class="modal-dialog modal-dialog-centered">
+
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+
+                                                    <h5 class="modal-title">
+                                                        Confirmar eliminación
+                                                    </h5>
+
+                                                    <button type="button"
+                                                            class="btn-close"
+                                                            data-bs-dismiss="modal">
+                                                    </button>
+
+                                                </div>
+
+                                                <div class="modal-body">
+
+                                                    ¿Está seguro que desea eliminar el servicio:
+
+                                                    <strong>
+                                                        @servicio.Nombre
+                                                    </strong>?
+
+                                                </div>
+
+                                                <div class="modal-footer">
+
+                                                    <button type="button"
+                                                            class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">
+
+                                                        Cancelar
+
+                                                    </button>
+
+                                                    <form method="post"
+                                                          asp-page-handler="Eliminar">
+
+                                                        <input type="hidden"
+                                                               name="token"
+                                                               value="@token" />
+
+                                                        <button type="submit"
+                                                                class="btn btn-danger">
+
+                                                            Eliminar
+
+                                                        </button>
+
+                                                    </form>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

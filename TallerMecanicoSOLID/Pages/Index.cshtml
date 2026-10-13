@@ -1,0 +1,343 @@
+﻿@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            Panel Principal
+        </h2>
+
+        <p class="text-muted">
+            Resumen del estado actual de los vehículos del taller
+        </p>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- TARJETAS DE RESUMEN -->
+    <!-- ========================= -->
+
+    <div class="row g-3 mb-4">
+
+        <!-- VEHÍCULOS -->
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body d-flex align-items-center gap-3">
+
+                    <div class="dashboard-icon bg-primary-subtle text-primary">
+
+                        <i class="bi bi-car-front-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <small class="text-muted">
+                            Vehículos registrados
+                        </small>
+
+                        <h2 class="fw-bold mb-0">
+                            @Model.TotalVehiculos
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EN REPARACIÓN -->
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body d-flex align-items-center gap-3">
+
+                    <div class="dashboard-icon bg-warning-subtle text-warning">
+
+                        <i class="bi bi-tools"></i>
+
+                    </div>
+
+                    <div>
+
+                        <small class="text-muted">
+                            En reparación
+                        </small>
+
+                        <h2 class="fw-bold mb-0">
+                            @Model.TotalEnReparacion
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- LISTOS -->
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body d-flex align-items-center gap-3">
+
+                    <div class="dashboard-icon bg-success-subtle text-success">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <small class="text-muted">
+                            Listos para entregar
+                        </small>
+
+                        <h2 class="fw-bold mb-0">
+                            @Model.TotalListosEntrega
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ENTREGAS -->
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body d-flex align-items-center gap-3">
+
+                    <div class="dashboard-icon bg-danger-subtle text-danger">
+
+                        <i class="bi bi-calendar-check-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <small class="text-muted">
+                            Entregas de hoy
+                        </small>
+
+                        <h2 class="fw-bold mb-0">
+                            @Model.TotalEntregasHoy
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- TABLA DE VEHÍCULOS -->
+    <!-- ========================= -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h5 class="fw-bold mb-0">
+                        Vehículos registrados
+                    </h5>
+
+                    <small class="text-muted">
+                        Información actual de los vehículos
+                    </small>
+
+                </div>
+
+                <span class="badge bg-primary">
+
+                    @DateTime.Now.ToString("dd/MM/yyyy")
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-body">
+
+            @if (Model.Vehiculos.Count == 0)
+            {
+                <div class="alert alert-secondary mb-0">
+
+                    No hay vehículos registrados.
+
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>
+                                    Placa
+                                </th>
+
+                                <th>
+                                    Cliente
+                                </th>
+
+                                <th>
+                                    Marca
+                                </th>
+
+                                <th>
+                                    Modelo
+                                </th>
+
+                                <th>
+                                    Año
+                                </th>
+
+                                <th>
+                                    Tipo
+                                </th>
+
+                                <th>
+                                    Kilometraje
+                                </th>
+
+                                <th>
+                                    Estado
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @for (int i = 0; i < Model.Vehiculos.Count; i++)
+                            {
+                                <tr>
+
+                                    <td class="fw-semibold">
+
+                                        @Model.Vehiculos[i].Placa
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @Model.Vehiculos[i].ClienteNombre
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @Model.Vehiculos[i].Marca
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @Model.Vehiculos[i].Modelo
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @Model.Vehiculos[i].Anio
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @Model.Vehiculos[i].Tipo
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @Model.Vehiculos[i].Kilometraje km
+
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (Model.Vehiculos[i].Estado)
+                                        {
+                                            <span class="badge bg-success">
+
+                                                Activo
+
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">
+
+                                                Inactivo
+
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
