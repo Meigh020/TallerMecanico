@@ -29,21 +29,27 @@
         <aside class="sidebar d-flex flex-column text-white">
 
             <div class="p-3 border-bottom border-secondary text-center">
-                <img src="~/images/alanezmotors.png" alt="AlánezMotors" class="logo-sidebar" />
+                <img src="~/images/alanezmotors.png"
+                     alt="AlánezMotors"
+                     class="logo-sidebar" />
             </div>
 
             <nav class="nav flex-column p-3 gap-2">
 
                 @{
-                    var inicioAbierto = currentPage == "/Index"
-                        || currentPage.StartsWith("/Clientes")
-                        || currentPage.StartsWith("/Vehiculos")
-                        || currentPage.StartsWith("/Servicios")
-                        || currentPage.StartsWith("/NuevoCliente")
-                        || currentPage.StartsWith("/EditarCliente");
+                    var inicioAbierto =
+                    currentPage.StartsWith("/Clientes")
+                    || currentPage.StartsWith("/NuevoCliente")
+                    || currentPage.StartsWith("/EditarCliente")
+                    || currentPage.StartsWith("/Vehiculos")
+                    || currentPage.StartsWith("/NuevoVehiculo")
+                    || currentPage.StartsWith("/EditarVehiculo")
+                    || currentPage.StartsWith("/Servicios")
+                    || currentPage.StartsWith("/NuevoServicio")
+                    || currentPage.StartsWith("/EditarServicio");
                 }
 
-                <a class="nav-link sidebar-link d-flex justify-content-between align-items-center sidebar-toggle @(currentPage == "/Index" ? "active" : "")"
+                <a class="nav-link sidebar-link d-flex justify-content-between align-items-center sidebar-toggle"
                    data-bs-toggle="collapse"
                    href="#submenuInicio"
                    role="button"
@@ -54,17 +60,12 @@
                         <i class="bi bi-house-door me-2"></i>
                         Inicio
                     </span>
+
                     <i class="bi bi-chevron-down"></i>
                 </a>
 
-                <div class="collapse @(inicioAbierto ? "show" : "")" id="submenuInicio">
-
-                    <a asp-page="/Index"
-                       class="nav-link sidebar-link sidebar-sublink @(currentPage == "/Index" ? "active" : "")">
-
-                        <i class="bi bi-speedometer2 me-2"></i>
-                        Panel
-                    </a>
+                <div class="collapse @(inicioAbierto ? "show" : "")"
+                     id="submenuInicio">
 
                     <a asp-page="/Clientes"
                        class="nav-link sidebar-link sidebar-sublink @(currentPage.StartsWith("/Clientes") || currentPage.StartsWith("/NuevoCliente") || currentPage.StartsWith("/EditarCliente") ? "active" : "")">
@@ -74,14 +75,14 @@
                     </a>
 
                     <a asp-page="/Vehiculos"
-                       class="nav-link sidebar-link sidebar-sublink @(currentPage.StartsWith("/Vehiculos") ? "active" : "")">
+                       class="nav-link sidebar-link sidebar-sublink @(currentPage.StartsWith("/Vehiculos") || currentPage.StartsWith("/NuevoVehiculo") || currentPage.StartsWith("/EditarVehiculo") ? "active" : "")">
 
                         <i class="bi bi-car-front me-2"></i>
                         Vehículos
                     </a>
 
                     <a asp-page="/Servicios"
-                       class="nav-link sidebar-link sidebar-sublink @(currentPage.StartsWith("/Servicios") ? "active" : "")">
+                       class="nav-link sidebar-link sidebar-sublink @(currentPage.StartsWith("/Servicios") || currentPage.StartsWith("/NuevoServicio") || currentPage.StartsWith("/EditarServicio") ? "active" : "")">
 
                         <i class="bi bi-wrench-adjustable me-2"></i>
                         Servicios
@@ -153,6 +154,7 @@
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="~/js/site.js"

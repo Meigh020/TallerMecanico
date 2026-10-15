@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,7 +17,8 @@ namespace TallerMecanicoSOLID.Pages
             IDataProtectionProvider provider)
         {
             _repositorio = repositorio;
-            _protector = provider.CreateProtector("TallerMecanicoSOLID.Clientes");
+            _protector = provider.CreateProtector(
+                "TallerMecanicoSOLID.Clientes");
         }
 
         public List<Cliente> ListaClientes { get; set; }
@@ -25,15 +27,17 @@ namespace TallerMecanicoSOLID.Pages
         [BindProperty(SupportsGet = true)]
         public string Buscar { get; set; } = "";
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
             if (string.IsNullOrWhiteSpace(Buscar))
             {
-                ListaClientes = _repositorio.ListaEntidad();
+                ListaClientes =
+                    await _repositorio.ListaEntidadAsync();
             }
             else
             {
-                ListaClientes = _repositorio.Buscar(Buscar);
+                ListaClientes =
+                    await _repositorio.BuscarAsync(Buscar);
             }
         }
 
@@ -42,15 +46,16 @@ namespace TallerMecanicoSOLID.Pages
             return _protector.Protect(id.ToString());
         }
 
-        public IActionResult OnPostEliminar(string token)
+        public async Task<IActionResult> OnPostEliminarAsync(
+            string token)
         {
             try
             {
                 string textoId = _protector.Unprotect(token);
-
                 int id = Convert.ToInt32(textoId);
 
-                int resultado = _repositorio.Eliminar(id);
+                int resultado =
+                    await _repositorio.EliminarAsync(id);
 
                 if (resultado > 0)
                 {

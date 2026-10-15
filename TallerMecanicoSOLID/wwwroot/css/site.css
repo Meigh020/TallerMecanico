@@ -44,16 +44,36 @@ body {
     padding: 12px 15px;
 }
 
-    .sidebar-link:hover {
-        background-color: #28456f;
-        color: white;
-    }
+.sidebar-link:hover {
+    background-color: #28456f;
+    color: white;
+}
 
-    .sidebar-link.active {
-        background-color: #0d6efd;
-        color: white;
-    }
+.sidebar-link.active {
+    background-color: #0d6efd;
+    color: white;
+}
 
+/* Mantener un ancho estable para la columna Acciones */
+.columna-acciones {
+    width: 110px;
+    min-width: 110px;
+}
+
+/* Colocar los botones uno debajo del otro */
+.contenedor-acciones {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    width: 105px;
+}
+
+/* Dar a ambos botones el mismo ancho */
+.boton-accion {
+    width: 100%;
+    white-space: nowrap;
+}
 
 /* SUBMENU DEL SIDEBAR */
 

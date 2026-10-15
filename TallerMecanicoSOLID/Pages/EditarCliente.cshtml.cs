@@ -34,7 +34,7 @@ namespace TallerMecanicoSOLID.Pages
         [BindProperty]
         public string Token { get; set; } = "";
 
-        public IActionResult OnGet(string id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             int clienteId;
 
@@ -51,7 +51,8 @@ namespace TallerMecanicoSOLID.Pages
                 return RedirectToPage("/Clientes");
             }
 
-            Cliente? cliente = _repositorio.ObtenerId(clienteId);
+            Cliente? cliente =
+                await _repositorio.ObtenerIdAsync(clienteId);
 
             if (cliente == null)
             {
@@ -67,7 +68,7 @@ namespace TallerMecanicoSOLID.Pages
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             int clienteId;
 
@@ -122,7 +123,7 @@ namespace TallerMecanicoSOLID.Pages
             {
                 ModelState.AddModelError(
                     "Cliente.Telefono",
-                    "El teléfono contiene caracteres no permitidos o supera los 20 caracteres.");
+                    "El teléfono contiene caracteres no permitidos o supera los 8 caracteres.");
             }
 
             if (!Validaciones.ValidarEmail(Cliente.Email))
@@ -169,15 +170,15 @@ namespace TallerMecanicoSOLID.Pages
 
             if (!ModelState.IsValid)
             {
-                // Conservar el token para que el formulario
-                // pueda volver a enviarse.
+                // Conservar el token para volver a enviar el formulario.
                 return Page();
             }
 
             try
             {
                 // Comprobar que el registro sigue activo.
-                Cliente? existente = _repositorio.ObtenerId(clienteId);
+                Cliente? existente =
+                    await _repositorio.ObtenerIdAsync(clienteId);
 
                 if (existente == null)
                 {
@@ -187,7 +188,8 @@ namespace TallerMecanicoSOLID.Pages
                     return RedirectToPage("/Clientes");
                 }
 
-                int resultado = _repositorio.Editar(Cliente);
+                int resultado =
+                    await _repositorio.EditarAsync(Cliente);
 
                 if (resultado > 0)
                 {

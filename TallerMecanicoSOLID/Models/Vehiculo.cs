@@ -22,13 +22,13 @@ namespace TallerMecanicoSOLID.Models
             ErrorMessage = "El modelo no puede superar 50 caracteres")]
         public string Modelo { get; set; } = "";
 
-        [Range(1901, 2026,
-            ErrorMessage = "Ingrese un año válido")]
+        [Range(1960, 2026,
+            ErrorMessage = "Ingrese un año válido [1960-2026]")]
         public int Anio { get; set; }
 
         [Required(ErrorMessage = "El color es obligatorio")]
-        [StringLength(30,
-            ErrorMessage = "El color no puede superar 30 caracteres")]
+        [StringLength(15,
+            ErrorMessage = "El color no puede superar 15 caracteres")]
         public string Color { get; set; } = "";
 
         [Required(ErrorMessage = "El tipo es obligatorio")]

@@ -1,3 +1,4 @@
+
 using MySql.Data.MySqlClient;
 using TallerMecanicoSOLID.Configuracion;
 using TallerMecanicoSOLID.Interfaces;
@@ -14,7 +15,7 @@ namespace TallerMecanicoSOLID.Repositories
             _configuracion = configuracion;
         }
 
-        public List<Servicio> ListaEntidad()
+        public async Task<List<Servicio>> ListaEntidadAsync()
         {
             List<Servicio> servicios = new List<Servicio>();
 
@@ -24,14 +25,16 @@ namespace TallerMecanicoSOLID.Repositories
                            WHERE eliminado = 0
                            ORDER BY id DESC";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
-                using (MySqlDataReader lector = comando.ExecuteReader())
+                using (MySqlDataReader lector =
+                       (MySqlDataReader)await comando.ExecuteReaderAsync())
                 {
-                    while (lector.Read())
+                    while (await lector.ReadAsync())
                     {
                         servicios.Add(MapearServicio(lector));
                     }
@@ -41,7 +44,7 @@ namespace TallerMecanicoSOLID.Repositories
             return servicios;
         }
 
-        public Servicio? ObtenerId(int id)
+        public async Task<Servicio?> ObtenerIdAsync(int id)
         {
             Servicio? servicio = null;
 
@@ -50,17 +53,19 @@ namespace TallerMecanicoSOLID.Repositories
                            FROM servicio
                            WHERE id = @id AND eliminado = 0";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
                 {
                     comando.Parameters.AddWithValue("@id", id);
 
-                    using (MySqlDataReader lector = comando.ExecuteReader())
+                    using (MySqlDataReader lector =
+                           (MySqlDataReader)await comando.ExecuteReaderAsync())
                     {
-                        if (lector.Read())
+                        if (await lector.ReadAsync())
                         {
                             servicio = MapearServicio(lector);
                         }
@@ -71,7 +76,7 @@ namespace TallerMecanicoSOLID.Repositories
             return servicio;
         }
 
-        public List<Servicio> Buscar(string texto)
+        public async Task<List<Servicio>> BuscarAsync(string texto)
         {
             List<Servicio> servicios = new List<Servicio>();
 
@@ -84,17 +89,19 @@ namespace TallerMecanicoSOLID.Repositories
                                 OR descripcion LIKE @texto)
                            ORDER BY id DESC";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
                 {
                     comando.Parameters.AddWithValue("@texto", "%" + texto + "%");
 
-                    using (MySqlDataReader lector = comando.ExecuteReader())
+                    using (MySqlDataReader lector =
+                           (MySqlDataReader)await comando.ExecuteReaderAsync())
                     {
-                        while (lector.Read())
+                        while (await lector.ReadAsync())
                         {
                             servicios.Add(MapearServicio(lector));
                         }
@@ -105,7 +112,7 @@ namespace TallerMecanicoSOLID.Repositories
             return servicios;
         }
 
-        public int Crear(Servicio entidad)
+        public async Task<int> CrearAsync(Servicio entidad)
         {
             string sql = @"INSERT INTO servicio
                                (nombre, tipo, descripcion, precio,
@@ -114,21 +121,22 @@ namespace TallerMecanicoSOLID.Repositories
                                (@nombre, @tipo, @descripcion, @precio,
                                 @duracion_estimada, @unidad_duracion, @estado, 0)";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
                 {
                     AgregarParametros(comando, entidad);
                     comando.Parameters.AddWithValue("@estado", entidad.Estado);
 
-                    return comando.ExecuteNonQuery();
+                    return await comando.ExecuteNonQueryAsync();
                 }
             }
         }
 
-        public int Editar(Servicio entidad)
+        public async Task<int> EditarAsync(Servicio entidad)
         {
             string sql = @"UPDATE servicio
                            SET nombre = @nombre,
@@ -140,9 +148,10 @@ namespace TallerMecanicoSOLID.Repositories
                                estado = @estado
                            WHERE id = @id AND eliminado = 0";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
                 {
@@ -150,25 +159,27 @@ namespace TallerMecanicoSOLID.Repositories
                     comando.Parameters.AddWithValue("@estado", entidad.Estado);
                     comando.Parameters.AddWithValue("@id", entidad.Id);
 
-                    return comando.ExecuteNonQuery();
+                    return await comando.ExecuteNonQueryAsync();
                 }
             }
         }
 
-        public int Eliminar(int id)
+        public async Task<int> EliminarAsync(int id)
         {
             string sql = @"UPDATE servicio
                            SET eliminado = 1
                            WHERE id = @id AND eliminado = 0";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
                 {
                     comando.Parameters.AddWithValue("@id", id);
-                    return comando.ExecuteNonQuery();
+
+                    return await comando.ExecuteNonQueryAsync();
                 }
             }
         }
@@ -188,14 +199,18 @@ namespace TallerMecanicoSOLID.Repositories
             };
         }
 
-        private static void AgregarParametros(MySqlCommand comando, Servicio entidad)
+        private static void AgregarParametros(
+            MySqlCommand comando,
+            Servicio entidad)
         {
             comando.Parameters.AddWithValue("@nombre", entidad.Nombre);
             comando.Parameters.AddWithValue("@tipo", entidad.Tipo);
             comando.Parameters.AddWithValue("@descripcion", entidad.Descripcion);
             comando.Parameters.AddWithValue("@precio", entidad.Precio);
-            comando.Parameters.AddWithValue("@duracion_estimada", entidad.DuracionEstimada);
-            comando.Parameters.AddWithValue("@unidad_duracion", entidad.UnidadDuracion);
+            comando.Parameters.AddWithValue(
+                "@duracion_estimada", entidad.DuracionEstimada);
+            comando.Parameters.AddWithValue(
+                "@unidad_duracion", entidad.UnidadDuracion);
         }
     }
 }

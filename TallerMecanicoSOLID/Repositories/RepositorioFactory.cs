@@ -1,3 +1,4 @@
+
 using TallerMecanicoSOLID.Configuracion;
 using TallerMecanicoSOLID.Interfaces;
 using TallerMecanicoSOLID.Models;
@@ -6,9 +7,8 @@ namespace TallerMecanicoSOLID.Repositories
 {
     /// <summary>
     /// Fábrica de repositorios (Factory Method).
-    /// Permite obtener implementaciones de IRepositorio&lt;T&gt;
-    /// a partir de la configuración de base de datos,
-    /// sin que las páginas conozcan las clases concretas.
+    /// Permite crear los repositorios sin que las páginas
+    /// dependan directamente de sus implementaciones concretas.
     /// </summary>
     public class RepositorioFactory
     {

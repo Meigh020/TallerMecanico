@@ -6,14 +6,8 @@ namespace TallerMecanicoSOLID.Factories
     {
         public override Cliente Crear()
         {
-            return new Cliente
-            {
-                Nombre = "Nombre del cliente",
-                Apellido = "Apellido del cliente",
-                CiNit = "123456789",
-                Telefono = "555-1234",
-                Email = ""
-            };
+            return new Cliente();
+            
         }
     }
 }

@@ -6,6 +6,7 @@ using TallerMecanicoSOLID.Configuracion;
 using TallerMecanicoSOLID.Interfaces;
 using TallerMecanicoSOLID.Models;
 using TallerMecanicoSOLID.Repositories;
+
 namespace TallerMecanicoSOLID.Pages
 {
     public class NuevoClienteModel : PageModel
@@ -21,17 +22,16 @@ namespace TallerMecanicoSOLID.Pages
         }
 
         [BindProperty]
-        public Cliente Cliente { get; set; } = new Cliente 
+        public Cliente Cliente { get; set; } = new Cliente
         {
             Estado = true
-
         };
 
         public void OnGet()
         {
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             // Normalizar los datos antes de validarlos.
             Cliente.Nombre =
@@ -73,6 +73,7 @@ namespace TallerMecanicoSOLID.Pages
                     "Cliente.Email",
                     "Ingrese un correo electrónico con un formato válido.");
             }
+
             if (!Validaciones.SoloLetras(Cliente.Nombre))
             {
                 ModelState.AddModelError(
@@ -113,10 +114,10 @@ namespace TallerMecanicoSOLID.Pages
                 return Page();
             }
 
-
             try
             {
-                int resultado = _repositorio.Crear(Cliente);
+                int resultado =
+                    await _repositorio.CrearAsync(Cliente);
 
                 if (resultado > 0)
                 {

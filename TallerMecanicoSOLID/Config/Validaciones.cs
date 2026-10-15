@@ -148,7 +148,7 @@ namespace TallerMecanicoSOLID.Configuracion
             // Permite números, espacios, +, - y paréntesis.
             return Regex.IsMatch(
                 telefono,
-                @"^[0-9+()\-\s]+$");
+                @"^[0-9]+$");
         }
 
 
@@ -248,7 +248,7 @@ namespace TallerMecanicoSOLID.Configuracion
 
         public static bool ValidarAnio(int anio)
         {
-            return anio >= 1901 &&
+            return anio >= 1960 &&
                    anio <= DateTime.Today.Year + 1;
         }
 

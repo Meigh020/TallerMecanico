@@ -32,8 +32,11 @@
 
                 <div class="row g-3">
 
+                    <!-- NOMBRE -->
                     <div class="col-md-6">
-                        <label class="form-label">
+
+                        <label asp-for="Servicio.Nombre"
+                               class="form-label">
                             Nombre
                         </label>
 
@@ -44,10 +47,15 @@
                         <span asp-validation-for="Servicio.Nombre"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- TIPO -->
                     <div class="col-md-6">
-                        <label class="form-label">
+
+                        <label asp-for="Servicio.Tipo"
+                               class="form-label">
                             Tipo
                         </label>
 
@@ -66,14 +74,6 @@
                                 Mantenimiento correctivo
                             </option>
 
-                            <option value="Diagnóstico">
-                                Diagnóstico
-                            </option>
-
-                            <option value="Reparación">
-                                Reparación
-                            </option>
-
                             <option value="Revisión general">
                                 Revisión general
                             </option>
@@ -83,10 +83,15 @@
                         <span asp-validation-for="Servicio.Tipo"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- DESCRIPCIÓN -->
                     <div class="col-12">
-                        <label class="form-label">
+
+                        <label asp-for="Servicio.Descripcion"
+                               class="form-label">
                             Descripción
                         </label>
 
@@ -98,41 +103,56 @@
                         <span asp-validation-for="Servicio.Descripcion"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- PRECIO -->
                     <div class="col-md-4">
-                        <label class="form-label">
+
+                        <label asp-for="Servicio.Precio"
+                               class="form-label">
                             Precio (Bs)
                         </label>
 
                         <input asp-for="Servicio.Precio"
                                type="number"
                                step="0.01"
-                               min="0"
-                               class="form-control" />
+                               class="form-control"
+                               placeholder="Ej. 250.00" />
 
                         <span asp-validation-for="Servicio.Precio"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- DURACIÓN -->
                     <div class="col-md-4">
-                        <label class="form-label">
+
+                        <label asp-for="Servicio.DuracionEstimada"
+                               class="form-label">
                             Duración estimada
                         </label>
 
                         <input asp-for="Servicio.DuracionEstimada"
                                type="number"
-                               min="1"
-                               class="form-control" />
+                               class="form-control"
+                               placeholder="Ej. 2" />
 
                         <span asp-validation-for="Servicio.DuracionEstimada"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- UNIDAD DE DURACIÓN -->
                     <div class="col-md-4">
-                        <label class="form-label">
+
+                        <label asp-for="Servicio.UnidadDuracion"
+                               class="form-label">
                             Unidad de duración
                         </label>
 
@@ -143,15 +163,15 @@
                                 -- Seleccione una unidad --
                             </option>
 
-                            <option value="minutos">
+                            <option value="Minutos">
                                 Minutos
                             </option>
 
-                            <option value="horas">
+                            <option value="Horas">
                                 Horas
                             </option>
 
-                            <option value="días">
+                            <option value="Dias">
                                 Días
                             </option>
 
@@ -160,20 +180,35 @@
                         <span asp-validation-for="Servicio.UnidadDuracion"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- ESTADO -->
                     <div class="col-md-6">
-                        <label asp-for="Servicio.Estado" class="form-label">
-                                Estado del servicio
+
+                        <label asp-for="Servicio.Estado"
+                               class="form-label">
+                            Estado del servicio
                         </label>
 
-                        <select asp-for="Servicio.Estado" class="form-select">
-                            <option value="true">Activo</option>
-                            <option value="false">Inactivo</option>
+                        <select asp-for="Servicio.Estado"
+                                class="form-select">
+
+                            <option value="true">
+                                Activo
+                            </option>
+
+                            <option value="false">
+                                Inactivo
+                            </option>
+
                         </select>
 
                         <span asp-validation-for="Servicio.Estado"
-                            class="text-danger small"></span>
+                              class="text-danger small">
+                        </span>
+
                     </div>
 
                 </div>

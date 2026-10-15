@@ -33,16 +33,19 @@ namespace TallerMecanicoSOLID.Pages
         [BindProperty(SupportsGet = true)]
         public string Buscar { get; set; } = "";
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
             if (string.IsNullOrWhiteSpace(Buscar))
             {
-                ListaVehiculos = _repositorio.ListaEntidad();
+                ListaVehiculos =
+                    await _repositorio.ListaEntidadAsync();
             }
             else
             {
                 Buscar = Validaciones.SanitizarTexto(Buscar, 100);
-                ListaVehiculos = _repositorio.Buscar(Buscar);
+
+                ListaVehiculos =
+                    await _repositorio.BuscarAsync(Buscar);
             }
         }
 
@@ -51,7 +54,8 @@ namespace TallerMecanicoSOLID.Pages
             return _protector.Protect(id.ToString());
         }
 
-        public IActionResult OnPostEliminar(string token)
+        public async Task<IActionResult> OnPostEliminarAsync(
+            string token)
         {
             try
             {
@@ -60,11 +64,14 @@ namespace TallerMecanicoSOLID.Pages
 
                 if (!Validaciones.EsIdValido(id))
                 {
-                    TempData["Error"] = "El identificador del vehículo no es válido.";
+                    TempData["Error"] =
+                        "El identificador del vehículo no es válido.";
+
                     return RedirectToPage();
                 }
 
-                int resultado = _repositorio.Eliminar(id);
+                int resultado =
+                    await _repositorio.EliminarAsync(id);
 
                 if (resultado > 0)
                 {

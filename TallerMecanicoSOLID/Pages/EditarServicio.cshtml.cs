@@ -33,7 +33,7 @@ namespace TallerMecanicoSOLID.Pages
         [BindProperty]
         public string Token { get; set; } = "";
 
-        public IActionResult OnGet(string id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace TallerMecanicoSOLID.Pages
                 }
 
                 Servicio? servicio =
-                    _repositorio.ObtenerId(servicioId);
+                    await _repositorio.ObtenerIdAsync(servicioId);
 
                 if (servicio == null)
                 {
@@ -70,7 +70,7 @@ namespace TallerMecanicoSOLID.Pages
             }
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             // 1. Verificar el token antes de editar.
             int servicioId;
@@ -107,6 +107,7 @@ namespace TallerMecanicoSOLID.Pages
                 Validaciones.Capitalizar(Servicio.Nombre);
 
             Servicio.Tipo = Servicio.Tipo?.Trim() ?? "";
+
             Servicio.UnidadDuracion =
                 Servicio.UnidadDuracion?.Trim() ?? "";
 
@@ -147,7 +148,15 @@ namespace TallerMecanicoSOLID.Pages
             }
 
             // 6. Validar el tipo permitido por la base de datos.
-            if (string.IsNullOrWhiteSpace(Servicio.Tipo))
+            string[] tiposPermitidos =
+            {
+                "preventivo",
+                "correctivo",
+                "revision_simple"
+            };
+
+            if (string.IsNullOrWhiteSpace(Servicio.Tipo) ||
+                !tiposPermitidos.Contains(Servicio.Tipo))
             {
                 ModelState.AddModelError(
                     "Servicio.Tipo",
@@ -187,7 +196,7 @@ namespace TallerMecanicoSOLID.Pages
             {
                 // Comprobar que el servicio todavía está activo.
                 Servicio? existente =
-                    _repositorio.ObtenerId(servicioId);
+                    await _repositorio.ObtenerIdAsync(servicioId);
 
                 if (existente == null)
                 {
@@ -197,7 +206,8 @@ namespace TallerMecanicoSOLID.Pages
                     return RedirectToPage("/Servicios");
                 }
 
-                int resultado = _repositorio.Editar(Servicio);
+                int resultado =
+                    await _repositorio.EditarAsync(Servicio);
 
                 if (resultado > 0)
                 {

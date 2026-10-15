@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿
+using MySql.Data.MySqlClient;
 using TallerMecanicoSOLID.Configuracion;
 using TallerMecanicoSOLID.Interfaces;
 using TallerMecanicoSOLID.Models;
@@ -14,7 +15,7 @@ namespace TallerMecanicoSOLID.Repositories
             _configuracion = configuracion;
         }
 
-        public List<Cliente> ListaEntidad()
+        public async Task<List<Cliente>> ListaEntidadAsync()
         {
             List<Cliente> clientes = new List<Cliente>();
 
@@ -24,14 +25,16 @@ namespace TallerMecanicoSOLID.Repositories
                            WHERE eliminado = 0
                            ORDER BY id DESC";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
-                using (MySqlDataReader lector = comando.ExecuteReader())
+                using (MySqlDataReader lector =
+                       (MySqlDataReader)await comando.ExecuteReaderAsync())
                 {
-                    while (lector.Read())
+                    while (await lector.ReadAsync())
                     {
                         clientes.Add(MapearCliente(lector));
                     }
@@ -41,7 +44,7 @@ namespace TallerMecanicoSOLID.Repositories
             return clientes;
         }
 
-        public Cliente? ObtenerId(int id)
+        public async Task<Cliente?> ObtenerIdAsync(int id)
         {
             Cliente? cliente = null;
 
@@ -50,17 +53,19 @@ namespace TallerMecanicoSOLID.Repositories
                            FROM cliente
                            WHERE id = @id AND eliminado = 0";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
                 {
                     comando.Parameters.AddWithValue("@id", id);
 
-                    using (MySqlDataReader lector = comando.ExecuteReader())
+                    using (MySqlDataReader lector =
+                           (MySqlDataReader)await comando.ExecuteReaderAsync())
                     {
-                        if (lector.Read())
+                        if (await lector.ReadAsync())
                         {
                             cliente = MapearCliente(lector);
                         }
@@ -71,7 +76,7 @@ namespace TallerMecanicoSOLID.Repositories
             return cliente;
         }
 
-        public List<Cliente> Buscar(string texto)
+        public async Task<List<Cliente>> BuscarAsync(string texto)
         {
             List<Cliente> clientes = new List<Cliente>();
 
@@ -85,17 +90,19 @@ namespace TallerMecanicoSOLID.Repositories
                                 OR email LIKE @texto)
                            ORDER BY id DESC";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
                 {
                     comando.Parameters.AddWithValue("@texto", "%" + texto + "%");
 
-                    using (MySqlDataReader lector = comando.ExecuteReader())
+                    using (MySqlDataReader lector =
+                           (MySqlDataReader)await comando.ExecuteReaderAsync())
                     {
-                        while (lector.Read())
+                        while (await lector.ReadAsync())
                         {
                             clientes.Add(MapearCliente(lector));
                         }
@@ -106,7 +113,7 @@ namespace TallerMecanicoSOLID.Repositories
             return clientes;
         }
 
-        public int Crear(Cliente entidad)
+        public async Task<int> CrearAsync(Cliente entidad)
         {
             string sql = @"INSERT INTO cliente
                                (nombre, apellido, ci_nit, telefono, email,
@@ -115,9 +122,10 @@ namespace TallerMecanicoSOLID.Repositories
                                (@nombre, @apellido, @ci_nit, @telefono, @email,
                                 @direccion, @estado, 0)";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
                 {
@@ -129,12 +137,12 @@ namespace TallerMecanicoSOLID.Repositories
                     comando.Parameters.AddWithValue("@direccion", entidad.Direccion);
                     comando.Parameters.AddWithValue("@estado", entidad.Estado);
 
-                    return comando.ExecuteNonQuery();
+                    return await comando.ExecuteNonQueryAsync();
                 }
             }
         }
 
-        public int Editar(Cliente entidad)
+        public async Task<int> EditarAsync(Cliente entidad)
         {
             string sql = @"UPDATE cliente
                            SET nombre = @nombre,
@@ -146,9 +154,10 @@ namespace TallerMecanicoSOLID.Repositories
                                estado = @estado
                            WHERE id = @id AND eliminado = 0";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
                 {
@@ -161,25 +170,27 @@ namespace TallerMecanicoSOLID.Repositories
                     comando.Parameters.AddWithValue("@direccion", entidad.Direccion);
                     comando.Parameters.AddWithValue("@estado", entidad.Estado);
 
-                    return comando.ExecuteNonQuery();
+                    return await comando.ExecuteNonQueryAsync();
                 }
             }
         }
 
-        public int Eliminar(int id)
+        public async Task<int> EliminarAsync(int id)
         {
             string sql = @"UPDATE cliente
                            SET eliminado = 1
                            WHERE id = @id AND eliminado = 0";
 
-            using (MySqlConnection conexion = new MySqlConnection(_configuracion.ConnectionString))
+            using (MySqlConnection conexion =
+                   new MySqlConnection(_configuracion.ConnectionString))
             {
-                conexion.Open();
+                await conexion.OpenAsync();
 
                 using (MySqlCommand comando = new MySqlCommand(sql, conexion))
                 {
                     comando.Parameters.AddWithValue("@id", id);
-                    return comando.ExecuteNonQuery();
+
+                    return await comando.ExecuteNonQueryAsync();
                 }
             }
         }

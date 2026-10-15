@@ -368,24 +368,25 @@ $.extend( $.validator, {
 		$.extend( $.validator.defaults, settings );
 	},
 
-	messages: {
-		required: "This field is required.",
-		remote: "Please fix this field.",
-		email: "Please enter a valid email address.",
-		url: "Please enter a valid URL.",
-		date: "Please enter a valid date.",
-		dateISO: "Please enter a valid date (ISO).",
-		number: "Please enter a valid number.",
-		digits: "Please enter only digits.",
-		equalTo: "Please enter the same value again.",
-		maxlength: $.validator.format( "Please enter no more than {0} characters." ),
-		minlength: $.validator.format( "Please enter at least {0} characters." ),
-		rangelength: $.validator.format( "Please enter a value between {0} and {1} characters long." ),
-		range: $.validator.format( "Please enter a value between {0} and {1}." ),
-		max: $.validator.format( "Please enter a value less than or equal to {0}." ),
-		min: $.validator.format( "Please enter a value greater than or equal to {0}." ),
-		step: $.validator.format( "Please enter a multiple of {0}." )
-	},
+
+messages: {
+    required: "Este campo es obligatorio.",
+    remote: "Por favor, corrige este campo.",
+    email: "Por favor, introduce una dirección de correo electrónico válida.",
+    url: "Por favor, introduce una URL válida.",
+    date: "Por favor, introduce una fecha válida.",
+    dateISO: "Por favor, introduce una fecha válida (formato ISO).",
+    number: "Por favor, introduce un número válido.",
+    digits: "Por favor, introduce solo números.",
+    equalTo: "Por favor, introduce el mismo valor nuevamente.",
+    maxlength: $.validator.format("Por favor, no introduzcas más de {0} caracteres."),
+    minlength: $.validator.format("Por favor, introduce al menos {0} caracteres."),
+    rangelength: $.validator.format("Por favor, introduce un valor de entre {0} y {1} caracteres."),
+    range: $.validator.format("Por favor, introduce un valor entre {0} y {1}."),
+    max: $.validator.format("Por favor, introduce un valor menor o igual que {0}."),
+    min: $.validator.format("Por favor, introduce un valor mayor o igual que {0}."),
+    step: $.validator.format("Por favor, introduce un múltiplo de {0}.")
+},
 
 	autoCreateRanges: false,
 

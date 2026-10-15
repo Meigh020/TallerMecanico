@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TallerMecanicoSOLID.Configuracion;
@@ -20,25 +21,26 @@ namespace TallerMecanicoSOLID.Pages
         }
 
         [BindProperty]
-        public Servicio Servicio { get; set; } = new Servicio 
+        public Servicio Servicio { get; set; } = new Servicio
         {
             Estado = true
-        
         };
 
         public void OnGet()
         {
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             Servicio.Nombre =
                 Validaciones.SanitizarTexto(Servicio.Nombre, 120);
 
             Servicio.Descripcion =
-                Validaciones.SanitizarTexto(Servicio.Descripcion, 255);
+                Validaciones.SanitizarTexto(
+                    Servicio.Descripcion, 255);
 
-            Servicio.Nombre = Validaciones.Capitalizar(Servicio.Nombre);
+            Servicio.Nombre =
+                Validaciones.Capitalizar(Servicio.Nombre);
 
             // Convertir el tipo seleccionado al valor aceptado por MySQL.
             switch (Servicio.Tipo?.Trim())
@@ -60,16 +62,14 @@ namespace TallerMecanicoSOLID.Pages
                     break;
 
                 default:
-                    ModelState.AddModelError(
-                        "Servicio.Tipo",
-                        "Debe seleccionar un tipo de servicio válido.");
+                    Servicio.Tipo = "";
                     break;
             }
 
             ModelState.Clear();
             TryValidateModel(Servicio, nameof(Servicio));
 
-            // Volver a comprobar el tipo después de limpiar ModelState.
+            // Comprobar el tipo después de normalizar el modelo.
             string[] tiposPermitidos =
             {
                 "preventivo",
@@ -120,7 +120,8 @@ namespace TallerMecanicoSOLID.Pages
 
             try
             {
-                int resultado = _repositorio.Crear(Servicio);
+                int resultado =
+                    await _repositorio.CrearAsync(Servicio);
 
                 if (resultado > 0)
                 {

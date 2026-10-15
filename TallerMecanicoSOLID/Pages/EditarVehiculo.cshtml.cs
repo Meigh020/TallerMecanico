@@ -39,7 +39,7 @@ namespace TallerMecanicoSOLID.Pages
         public List<Cliente> ClientesDisponibles { get; set; }
             = new List<Cliente>();
 
-        public IActionResult OnGet(string id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             int vehiculoId;
 
@@ -55,11 +55,14 @@ namespace TallerMecanicoSOLID.Pages
             }
             catch
             {
-                TempData["Error"] = "El enlace de edición no es válido.";
+                TempData["Error"] =
+                    "El enlace de edición no es válido.";
+
                 return RedirectToPage("/Vehiculos");
             }
 
-            Vehiculo? vehiculo = _repositorio.ObtenerId(vehiculoId);
+            Vehiculo? vehiculo =
+                await _repositorio.ObtenerIdAsync(vehiculoId);
 
             if (vehiculo == null)
             {
@@ -71,19 +74,21 @@ namespace TallerMecanicoSOLID.Pages
 
             Vehiculo = vehiculo;
             Token = id;
-            CargarClientes();
+
+            await CargarClientesAsync();
 
             // Si el cliente asociado fue desactivado, se permite
             // mostrar el vehículo, pero no se ofrece como cliente activo.
             return Page();
         }
 
-        private void CargarClientes()
+        private async Task CargarClientesAsync()
         {
-            ClientesDisponibles = _repositorioCliente.ListaEntidad();
+            ClientesDisponibles =
+                await _repositorioCliente.ListaEntidadAsync();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             int vehiculoId;
 
@@ -101,7 +106,9 @@ namespace TallerMecanicoSOLID.Pages
             }
             catch
             {
-                TempData["Error"] = "El enlace de edición no es válido.";
+                TempData["Error"] =
+                    "El enlace de edición no es válido.";
+
                 return RedirectToPage("/Vehiculos");
             }
 
@@ -192,7 +199,8 @@ namespace TallerMecanicoSOLID.Pages
             else
             {
                 Cliente? cliente =
-                    _repositorioCliente.ObtenerId(Vehiculo.ClienteId);
+                    await _repositorioCliente.ObtenerIdAsync(
+                        Vehiculo.ClienteId);
 
                 if (cliente == null)
                 {
@@ -204,13 +212,14 @@ namespace TallerMecanicoSOLID.Pages
 
             if (!ModelState.IsValid)
             {
-                CargarClientes();
+                await CargarClientesAsync();
                 return Page();
             }
 
             try
             {
-                Vehiculo? existente = _repositorio.ObtenerId(vehiculoId);
+                Vehiculo? existente =
+                    await _repositorio.ObtenerIdAsync(vehiculoId);
 
                 if (existente == null)
                 {
@@ -220,7 +229,8 @@ namespace TallerMecanicoSOLID.Pages
                     return RedirectToPage("/Vehiculos");
                 }
 
-                int resultado = _repositorio.Editar(Vehiculo);
+                int resultado =
+                    await _repositorio.EditarAsync(Vehiculo);
 
                 if (resultado > 0)
                 {
@@ -234,7 +244,7 @@ namespace TallerMecanicoSOLID.Pages
                     "",
                     "No se pudo actualizar el vehículo. Verifique que siga activo.");
 
-                CargarClientes();
+                await CargarClientesAsync();
                 return Page();
             }
             catch (MySqlException ex) when (ex.Number == 1062)
@@ -243,7 +253,7 @@ namespace TallerMecanicoSOLID.Pages
                     "Vehiculo.Placa",
                     "Ya existe otro vehículo registrado con esa placa.");
 
-                CargarClientes();
+                await CargarClientesAsync();
                 return Page();
             }
             catch (MySqlException)
@@ -252,7 +262,7 @@ namespace TallerMecanicoSOLID.Pages
                     "",
                     "No se pudo actualizar el vehículo en la base de datos.");
 
-                CargarClientes();
+                await CargarClientesAsync();
                 return Page();
             }
             catch (Exception)
@@ -261,7 +271,7 @@ namespace TallerMecanicoSOLID.Pages
                     "",
                     "Ocurrió un error inesperado al actualizar el vehículo.");
 
-                CargarClientes();
+                await CargarClientesAsync();
                 return Page();
             }
         }

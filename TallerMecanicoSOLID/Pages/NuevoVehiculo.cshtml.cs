@@ -24,29 +24,30 @@ namespace TallerMecanicoSOLID.Pages
         }
 
         [BindProperty]
-        public Vehiculo Vehiculo { get; set; } = new Vehiculo 
+        public Vehiculo Vehiculo { get; set; } = new Vehiculo
         {
             Estado = true
-
         };
 
         public List<Cliente> ClientesDisponibles { get; set; }
             = new List<Cliente>();
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            CargarClientes();
+            await CargarClientesAsync();
         }
 
-        private void CargarClientes()
+        private async Task CargarClientesAsync()
         {
-            ClientesDisponibles = _repositorioCliente
-                .ListaEntidad()
-                .Where(c => c.Estado)
+            List<Cliente> clientes =
+                await _repositorioCliente.ListaEntidadAsync();
+
+            ClientesDisponibles = clientes
+                .Where(cliente => cliente.Estado)
                 .ToList();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             Vehiculo.Placa =
                 Validaciones.FormatearPlaca(Vehiculo.Placa);
@@ -135,7 +136,8 @@ namespace TallerMecanicoSOLID.Pages
             else
             {
                 Cliente? cliente =
-                    _repositorioCliente.ObtenerId(Vehiculo.ClienteId);
+                    await _repositorioCliente.ObtenerIdAsync(
+                        Vehiculo.ClienteId);
 
                 if (cliente == null || !cliente.Estado)
                 {
@@ -147,14 +149,14 @@ namespace TallerMecanicoSOLID.Pages
 
             if (!ModelState.IsValid)
             {
-                CargarClientes();
+                await CargarClientesAsync();
                 return Page();
             }
 
-
             try
             {
-                int resultado = _repositorio.Crear(Vehiculo);
+                int resultado =
+                    await _repositorio.CrearAsync(Vehiculo);
 
                 if (resultado > 0)
                 {
@@ -168,7 +170,7 @@ namespace TallerMecanicoSOLID.Pages
                     "",
                     "No se pudo registrar el vehículo.");
 
-                CargarClientes();
+                await CargarClientesAsync();
                 return Page();
             }
             catch (MySqlException ex) when (ex.Number == 1062)
@@ -177,7 +179,7 @@ namespace TallerMecanicoSOLID.Pages
                     "Vehiculo.Placa",
                     "Ya existe un vehículo registrado con esa placa.");
 
-                CargarClientes();
+                await CargarClientesAsync();
                 return Page();
             }
             catch (MySqlException)
@@ -186,7 +188,7 @@ namespace TallerMecanicoSOLID.Pages
                     "",
                     "No se pudo guardar el vehículo en la base de datos. Verifique los datos e inténtelo nuevamente.");
 
-                CargarClientes();
+                await CargarClientesAsync();
                 return Page();
             }
             catch (Exception)
@@ -195,7 +197,7 @@ namespace TallerMecanicoSOLID.Pages
                     "",
                     "Ocurrió un error inesperado al registrar el vehículo.");
 
-                CargarClientes();
+                await CargarClientesAsync();
                 return Page();
             }
         }

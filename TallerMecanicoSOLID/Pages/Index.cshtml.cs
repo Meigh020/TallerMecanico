@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TallerMecanicoSOLID.Interfaces;
 using TallerMecanicoSOLID.Models;
@@ -24,9 +25,9 @@ namespace TallerMecanicoSOLID.Pages
 
         public int TotalEntregasHoy { get; set; }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            Vehiculos = _repositorio.ListaEntidad();
+            Vehiculos = await _repositorio.ListaEntidadAsync();
 
             TotalVehiculos = Vehiculos.Count;
         }

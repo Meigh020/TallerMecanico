@@ -167,32 +167,32 @@
 
                                 </td>
 
-                                <td>
+                                <td class="columna-acciones">
 
-                                    <!-- EDITAR -->
+                                    <div class="contenedor-acciones">
 
-                                    <a asp-page="/EditarCliente"
-                                       asp-route-id="@token"
-                                       class="btn btn-sm btn-warning">
+                                        <!-- EDITAR -->
+                                        <a asp-page="/EditarCliente"
+                                           asp-route-id="@token"
+                                           class="btn btn-sm btn-warning boton-accion">
 
-                                        <i class="bi bi-pencil"></i>
-                                        Editar
+                                            <i class="bi bi-pencil"></i>
+                                            Editar
 
-                                    </a>
+                                        </a>
 
+                                        <!-- ELIMINAR -->
+                                        <button type="button"
+                                                class="btn btn-sm btn-danger boton-accion"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalEliminarCliente-@cliente.Id">
 
-                                    <!-- ELIMINAR -->
+                                            <i class="bi bi-trash"></i>
+                                            Eliminar
 
-                                    <button type="button"
-                                            class="btn btn-sm btn-danger"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalEliminarCliente-@cliente.Id">
+                                        </button>
 
-                                        <i class="bi bi-trash"></i>
-                                        Eliminar
-
-                                    </button>
-
+                                    </div>
 
                                     <!-- MODAL ELIMINAR -->
 

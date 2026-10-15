@@ -1,14 +1,20 @@
-﻿using TallerMecanicoSOLID.Models;
+﻿
+using TallerMecanicoSOLID.Models;
 
 namespace TallerMecanicoSOLID.Interfaces
 {
     public interface IRepositorio<T> where T : EntidadBase
     {
-        List<T> ListaEntidad();
-        T? ObtenerId(int id);
-        List<T> Buscar(string texto);
-        int Crear(T entidad);
-        int Editar(T entidad);
-        int Eliminar(int id);
+        Task<List<T>> ListaEntidadAsync();
+
+        Task<T?> ObtenerIdAsync(int id);
+
+        Task<List<T>> BuscarAsync(string texto);
+
+        Task<int> CrearAsync(T entidad);
+
+        Task<int> EditarAsync(T entidad);
+
+        Task<int> EliminarAsync(int id);
     }
 }

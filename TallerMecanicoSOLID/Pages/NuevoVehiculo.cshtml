@@ -1,5 +1,4 @@
-﻿
-@page
+﻿@page
 @model TallerMecanicoSOLID.Pages.NuevoVehiculoModel
 
 @{
@@ -10,6 +9,7 @@
 
     <div class="mb-4">
         <h2 class="fw-bold mb-1">Nuevo Vehículo</h2>
+
         <p class="text-muted mb-0">
             Registrar un vehículo y asociarlo a un cliente
         </p>
@@ -34,9 +34,9 @@
 
                 <div class="row g-3">
 
-
-
+                    <!-- CLIENTE -->
                     <div class="col-md-6">
+
                         <label asp-for="Vehiculo.ClienteId"
                                class="form-label">
                             Cliente
@@ -44,7 +44,10 @@
 
                         <select asp-for="Vehiculo.ClienteId"
                                 class="form-select">
-                            <option value="">-- Seleccione un cliente --</option>
+
+                            <option value="0">
+                                -- Seleccione un cliente --
+                            </option>
 
                             @foreach (var cliente in Model.ClientesDisponibles)
                             {
@@ -52,14 +55,19 @@
                                     @cliente.Nombre @cliente.Apellido - @cliente.CiNit
                                 </option>
                             }
+
                         </select>
 
                         <span asp-validation-for="Vehiculo.ClienteId"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- PLACA -->
                     <div class="col-md-6">
+
                         <label asp-for="Vehiculo.Placa"
                                class="form-label">
                             Placa
@@ -74,41 +82,72 @@
                         <span asp-validation-for="Vehiculo.Placa"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- MARCA -->
                     <div class="col-md-6">
+
                         <label asp-for="Vehiculo.Marca"
                                class="form-label">
                             Marca
                         </label>
 
-                        <input asp-for="Vehiculo.Marca"
-                               class="form-control"
-                               maxlength="60"
-                               placeholder="Ej. Toyota" />
+                        <select asp-for="Vehiculo.Marca"
+                                id="marca"
+                                class="form-select">
+
+                            <option value="">
+                                -- Seleccione una marca --
+                            </option>
+
+                            <option value="Toyota">Toyota</option>
+                            <option value="Nissan">Nissan</option>
+                            <option value="Suzuki">Suzuki</option>
+                            <option value="Ford">Ford</option>
+                            <option value="Chevrolet">Chevrolet</option>
+                            <option value="Hyundai">Hyundai</option>
+                            <option value="Kia">Kia</option>
+                            <option value="Mazda">Mazda</option>
+
+                        </select>
 
                         <span asp-validation-for="Vehiculo.Marca"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- MODELO -->
                     <div class="col-md-6">
+
                         <label asp-for="Vehiculo.Modelo"
                                class="form-label">
                             Modelo
                         </label>
 
-                        <input asp-for="Vehiculo.Modelo"
-                               class="form-control"
-                               maxlength="60"
-                               placeholder="Ej. Corolla o CX-5" />
+                        <select asp-for="Vehiculo.Modelo"
+                                id="modelo"
+                                class="form-select">
+
+                            <option value="">
+                                -- Seleccione un modelo --
+                            </option>
+
+                        </select>
 
                         <span asp-validation-for="Vehiculo.Modelo"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- AÑO -->
                     <div class="col-md-4">
+
                         <label asp-for="Vehiculo.Anio"
                                class="form-label">
                             Año
@@ -116,17 +155,19 @@
 
                         <input asp-for="Vehiculo.Anio"
                                type="number"
-                               min="1901"
-                               max="@(DateTime.Today.Year + 1)"
                                class="form-control"
                                placeholder="Ej. 2022" />
 
                         <span asp-validation-for="Vehiculo.Anio"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- COLOR -->
                     <div class="col-md-4">
+
                         <label asp-for="Vehiculo.Color"
                                class="form-label">
                             Color
@@ -140,9 +181,13 @@
                         <span asp-validation-for="Vehiculo.Color"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- TIPO -->
                     <div class="col-md-4">
+
                         <label asp-for="Vehiculo.Tipo"
                                class="form-label">
                             Tipo de vehículo
@@ -150,20 +195,43 @@
 
                         <select asp-for="Vehiculo.Tipo"
                                 class="form-select">
-                            <option value="">-- Seleccione un tipo --</option>
-                            <option value="Automóvil">Automóvil</option>
-                            <option value="Camioneta">Camioneta</option>
-                            <option value="Motocicleta">Motocicleta</option>
-                            <option value="Camión">Camión</option>
-                            <option value="Otro">Otro</option>
+
+                            <option value="">
+                                -- Seleccione un tipo --
+                            </option>
+
+                            <option value="Automóvil">
+                                Automóvil
+                            </option>
+
+                            <option value="Camioneta">
+                                Camioneta
+                            </option>
+
+                            <option value="Motocicleta">
+                                Motocicleta
+                            </option>
+
+                            <option value="Camión">
+                                Camión
+                            </option>
+
+                            <option value="Otro">
+                                Otro
+                            </option>
+
                         </select>
 
                         <span asp-validation-for="Vehiculo.Tipo"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- KILOMETRAJE -->
                     <div class="col-md-4">
+
                         <label asp-for="Vehiculo.Kilometraje"
                                class="form-label">
                             Kilometraje (km)
@@ -171,28 +239,41 @@
 
                         <input asp-for="Vehiculo.Kilometraje"
                                type="number"
-                               min="0"
-                               max="2000000"
                                class="form-control"
                                placeholder="Ej. 45000" />
 
                         <span asp-validation-for="Vehiculo.Kilometraje"
                               class="text-danger small">
                         </span>
+
                     </div>
 
+
+                    <!-- ESTADO -->
                     <div class="col-md-6">
-                        <label asp-for="Vehiculo.Estado" class="form-label">
+
+                        <label asp-for="Vehiculo.Estado"
+                               class="form-label">
                             Estado del vehículo
                         </label>
 
-                        <select asp-for="Vehiculo.Estado" class="form-select">
-                            <option value="true">Activo</option>
-                            <option value="false">Inactivo</option>
+                        <select asp-for="Vehiculo.Estado"
+                                class="form-select">
+
+                            <option value="true">
+                                Activo
+                            </option>
+
+                            <option value="false">
+                                Inactivo
+                            </option>
+
                         </select>
 
                         <span asp-validation-for="Vehiculo.Estado"
-                              class="text-danger small"></span>
+                              class="text-danger small">
+                        </span>
+
                     </div>
 
                 </div>
@@ -200,6 +281,7 @@
                 <hr class="my-4" />
 
                 <div class="d-flex justify-content-end gap-2">
+
                     <a asp-page="/Vehiculos"
                        class="btn btn-secondary">
                         Cancelar
@@ -208,9 +290,12 @@
                     <button type="submit"
                             class="btn btn-primary"
                             disabled="@(Model.ClientesDisponibles.Count == 0)">
+
                         <i class="bi bi-save me-1"></i>
                         Guardar Vehículo
+
                     </button>
+
                 </div>
 
             </form>
@@ -219,6 +304,134 @@
     </div>
 </div>
 
+
 @section Scripts {
+
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        const modelosPorMarca = {
+
+            Toyota: [
+                "Corolla",
+                "Yaris",
+                "Hilux",
+                "RAV4",
+                "Fortuner"
+            ],
+
+            Nissan: [
+                "Sentra",
+                "Versa",
+                "Frontier",
+                "Kicks",
+                "X-Trail"
+            ],
+
+            Suzuki: [
+                "Swift",
+                "Vitara",
+                "Jimny",
+                "S-Presso",
+                "Baleno"
+            ],
+
+            Ford: [
+                "Ranger",
+                "EcoSport",
+                "Escape",
+                "Explorer",
+                "F-150"
+            ],
+
+            Chevrolet: [
+                "Spark",
+                "Onix",
+                "Tracker",
+                "S10",
+                "Captiva"
+            ],
+
+            Hyundai: [
+                "Accent",
+                "Elantra",
+                "Tucson",
+                "Santa Fe",
+                "Creta"
+            ],
+
+            Kia: [
+                "Rio",
+                "Cerato",
+                "Sportage",
+                "Seltos",
+                "Sorento"
+            ],
+
+            Mazda: [
+                "Mazda 2",
+                "Mazda 3",
+                "CX-3",
+                "CX-5",
+                "CX-30"
+            ]
+        };
+
+
+        const marcaSelect =
+            document.getElementById("marca");
+
+        const modeloSelect =
+            document.getElementById("modelo");
+
+
+        function cargarModelos() {
+
+            const marcaSeleccionada =
+                marcaSelect.value;
+
+            const modeloActual =
+                "@Model.Vehiculo.Modelo";
+
+
+            modeloSelect.innerHTML =
+                '<option value="">-- Seleccione un modelo --</option>';
+
+
+            const modelos =
+                modelosPorMarca[marcaSeleccionada] || [];
+
+
+            modelos.forEach(function (modelo) {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = modelo;
+                option.textContent = modelo;
+
+
+                if (modelo === modeloActual) {
+                    option.selected = true;
+                }
+
+
+                modeloSelect.appendChild(option);
+
+            });
+        }
+
+
+        marcaSelect.addEventListener(
+            "change",
+            function () {
+                cargarModelos();
+            }
+        );
+
+
+        cargarModelos();
+
+    </script>
 }
