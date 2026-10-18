@@ -42,7 +42,7 @@
                                class="form-control"
                                maxlength="100"
                                autocomplete="given-name"
-                               placeholder="Ej. Juan" />
+                               placeholder="Ej. John Robert" />
 
                         <span asp-validation-for="Cliente.Nombre"
                               class="text-danger small">
@@ -63,7 +63,7 @@
                                class="form-control"
                                maxlength="100"
                                autocomplete="family-name"
-                               placeholder="Ej. Pérez" />
+                               placeholder="Ej. Doe Williams" />
 
                         <span asp-validation-for="Cliente.Apellido"
                               class="text-danger small">
@@ -71,16 +71,17 @@
 
                     </div>
 
-
                     <!-- CI / NIT -->
-                    <div class="col-md-6">
-
+                    <div class="col-md-3">
                         <label asp-for="NumeroCi" class="form-label">Número de CI</label>
                         <input asp-for="NumeroCi" class="form-control" maxlength="15" inputmode="numeric" placeholder="Ej. 8815391" />
                         <span asp-validation-for="NumeroCi" class="text-danger small"></span>
-                        <label asp-for="ExtensionCi" class="form-label mt-2">Extensión (opcional para NIT)</label>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label asp-for="ExtensionCi" class="form-label mt-2">Extensión CI</label>
                         <select asp-for="ExtensionCi" class="form-select">
-                            <option value="">Sin extensión / NIT</option>
+                            <option value="" disabled selected hidden>Seleccione una opcion</option>
                             <option value="CB">CB - Cochabamba</option>
                             <option value="LP">LP - La Paz</option>
                             <option value="SC">SC - Santa Cruz</option>
@@ -92,12 +93,11 @@
                             <option value="PA">PA - Pando</option>
                         </select>
                         <span asp-validation-for="ExtensionCi" class="text-danger small"></span>
-
                     </div>
 
 
                     <!-- TELÉFONO -->
-                    <div class="col-md-6">
+                    <div class="col-md-3">
 
                         <label asp-for="Cliente.Telefono"
                                class="form-label">
@@ -109,7 +109,7 @@
                                maxlength="30"
                                type="tel"
                                autocomplete="tel"
-                               placeholder="Ej. 70707070" />
+                               placeholder="Ej. 71461536" />
 
                         <span asp-validation-for="Cliente.Telefono"
                               class="text-danger small">
@@ -117,6 +117,33 @@
 
                     </div>
 
+                    
+                    <!-- ESTADO -->
+                    <div class="col-md-3">
+
+                        <label asp-for="Cliente.Estado"
+                               class="form-label">
+                            Estado del cliente
+                        </label>
+
+                        <select asp-for="Cliente.Estado"
+                                class="form-select">
+
+                            <option value="true">
+                                Activo
+                            </option>
+
+                            <option value="false">
+                                Inactivo
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="Cliente.Estado"
+                              class="text-danger small">
+                        </span>
+
+                    </div>
 
                     <!-- CORREO -->
                     <div class="col-md-6">
@@ -155,34 +182,6 @@
                                placeholder="Ej. Av. América, Cochabamba" />
 
                         <span asp-validation-for="Cliente.Direccion"
-                              class="text-danger small">
-                        </span>
-
-                    </div>
-
-
-                    <!-- ESTADO -->
-                    <div class="col-md-6">
-
-                        <label asp-for="Cliente.Estado"
-                               class="form-label">
-                            Estado del cliente
-                        </label>
-
-                        <select asp-for="Cliente.Estado"
-                                class="form-select">
-
-                            <option value="true">
-                                Activo
-                            </option>
-
-                            <option value="false">
-                                Inactivo
-                            </option>
-
-                        </select>
-
-                        <span asp-validation-for="Cliente.Estado"
                               class="text-danger small">
                         </span>
 

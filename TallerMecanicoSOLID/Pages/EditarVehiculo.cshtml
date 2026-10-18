@@ -40,8 +40,8 @@
                         <select asp-for="Vehiculo.ClienteId"
                                 class="form-select">
 
-                            <option value="0">
-                                -- Seleccione un cliente --
+                            <option value="0" disabled selected hidden>
+                                Seleccione un cliente
                             </option>
 
                             @foreach (var cliente in Model.ClientesDisponibles)
@@ -93,8 +93,8 @@
                                 id="marca"
                                 class="form-select">
 
-                            <option value="">
-                                -- Seleccione una marca --
+                            <option value="" disabled selected hidden>
+                                Seleccione una marca
                             </option>
 
                             <option value="Toyota">Toyota</option>
@@ -128,8 +128,8 @@
                                 id="modelo"
                                 class="form-select">
 
-                            <option value="">
-                                -- Seleccione un modelo --
+                            <option value="" disabled selected hidden>
+                                Seleccione un modelo
                             </option>
 
                         </select>
@@ -170,7 +170,7 @@
                         </label>
 
                         <select asp-for="Vehiculo.Color" class="form-select">
-                            <option value="">-- Seleccione un color --</option>
+                            <option value="" disabled selected hidden>Seleccione un color</option>
                             <option value="Blanco">Blanco</option>
                             <option value="Negro">Negro</option>
                             <option value="Gris">Gris</option>
@@ -201,8 +201,8 @@
                         <select asp-for="Vehiculo.Tipo"
                                 class="form-select">
 
-                            <option value="">
-                                -- Seleccione un tipo --
+                            <option value="" disabled selected hidden>
+                                Seleccione un tipo
                             </option>
 
                             <option value="Automóvil">
@@ -406,7 +406,7 @@
 
 
             modeloSelect.innerHTML =
-                '<option value="">-- Seleccione un modelo --</option>';
+                '<option value=""  disabled selected hidden>Seleccione primeramente una marca</option>';
 
 
             const modelos =
