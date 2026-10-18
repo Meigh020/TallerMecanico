@@ -1,11 +1,11 @@
-﻿@page
+@page
 @model TallerMecanicoSOLID.Pages.NuevoVehiculoModel
 
 @{
     ViewData["Title"] = "Nuevo Vehículo";
 }
 
-<div class="container-fluid">
+<div class="container-fluid formulario-taller">
 
     <div class="mb-4">
         <h2 class="fw-bold mb-1">Nuevo Vehículo</h2>
@@ -110,6 +110,7 @@
                             <option value="Hyundai">Hyundai</option>
                             <option value="Kia">Kia</option>
                             <option value="Mazda">Mazda</option>
+                            <option value="Pico">Pico</option>
 
                         </select>
 
@@ -173,10 +174,19 @@
                             Color
                         </label>
 
-                        <input asp-for="Vehiculo.Color"
-                               class="form-control"
-                               maxlength="40"
-                               placeholder="Ej. Gris Metalizado" />
+                        <select asp-for="Vehiculo.Color" class="form-select">
+                            <option value="">-- Seleccione un color --</option>
+                            <option value="Blanco">Blanco</option>
+                            <option value="Negro">Negro</option>
+                            <option value="Gris">Gris</option>
+                            <option value="Plata">Plata</option>
+                            <option value="Rojo">Rojo</option>
+                            <option value="Azul">Azul</option>
+                            <option value="Verde">Verde</option>
+                            <option value="Amarillo">Amarillo</option>
+                            <option value="Marrón">Marrón</option>
+                            <option value="Otro">Otro</option>
+                        </select>
 
                         <span asp-validation-for="Vehiculo.Color"
                               class="text-danger small">
@@ -375,6 +385,10 @@
                 "CX-3",
                 "CX-5",
                 "CX-30"
+            ],
+
+            Pico: [
+                "New Age"
             ]
         };
 

@@ -1,3 +1,4 @@
+﻿using MySql.Data.MySqlClient;
 
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
@@ -221,6 +222,11 @@ namespace TallerMecanicoSOLID.Pages
                     string.Empty,
                     "No se pudo actualizar el servicio. Verifique que siga activo.");
 
+                return Page();
+            }
+            catch (MySqlException ex) when (ex.Number == 1062)
+            {
+                ModelState.AddModelError("Servicio.Nombre", "Ya existe otro servicio con ese nombre y tipo.");
                 return Page();
             }
             catch (Exception)

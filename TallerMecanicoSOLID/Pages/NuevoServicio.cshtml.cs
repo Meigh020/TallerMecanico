@@ -1,3 +1,4 @@
+﻿using MySql.Data.MySqlClient;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -135,6 +136,11 @@ namespace TallerMecanicoSOLID.Pages
                     string.Empty,
                     "No se pudo registrar el servicio.");
 
+                return Page();
+            }
+            catch (MySqlException ex) when (ex.Number == 1062)
+            {
+                ModelState.AddModelError("Servicio.Nombre", "Ya existe un servicio con ese nombre y tipo.");
                 return Page();
             }
             catch (Exception)

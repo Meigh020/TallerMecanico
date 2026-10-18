@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -169,13 +169,11 @@ namespace TallerMecanicoSOLID.Configuracion
                 return false;
             }
 
-            // Comprobar que el CI/NIT contenga solamente números.
-            if (!SoloNumeros(ciNitSinEspacios))
-            {
-                return false;
-            }
-
-            return true;
+            // Aceptar CI solo numérico o CI con extensión boliviana (por ejemplo, 8815391-CB).
+            return Regex.IsMatch(
+                ciNitSinEspacios.ToUpperInvariant(),
+                @"^[0-9]+(-[A-Z]{2})?$",
+                RegexOptions.CultureInvariant);
         }
 
 

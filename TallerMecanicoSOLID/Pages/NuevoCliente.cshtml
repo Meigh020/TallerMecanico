@@ -1,11 +1,11 @@
-﻿@page
+@page
 @model TallerMecanicoSOLID.Pages.NuevoClienteModel
 
 @{
     ViewData["Title"] = "Nuevo Cliente";
 }
 
-<div class="container-fluid">
+<div class="container-fluid formulario-taller">
 
     <div class="mb-4">
         <h2 class="fw-bold mb-1">
@@ -63,20 +63,23 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="Cliente.CiNit"
-                               class="form-label">
-                            CI/NIT
-                        </label>
-
-                        <input asp-for="Cliente.CiNit"
-                               class="form-control"
-                               maxlength="20"
-                               inputmode="numeric"
-                               placeholder="Ej. 12345678" />
-
-                        <span asp-validation-for="Cliente.CiNit"
-                              class="text-danger small">
-                        </span>
+                        <label asp-for="NumeroCi" class="form-label">Número de CI</label>
+                        <input asp-for="NumeroCi" class="form-control" maxlength="15" inputmode="numeric" placeholder="Ej. 8815391" />
+                        <span asp-validation-for="NumeroCi" class="text-danger small"></span>
+                        <label asp-for="ExtensionCi" class="form-label mt-2">Extensión (opcional para NIT)</label>
+                        <select asp-for="ExtensionCi" class="form-select">
+                            <option value="">Sin extensión / NIT</option>
+                            <option value="CB">CB - Cochabamba</option>
+                            <option value="LP">LP - La Paz</option>
+                            <option value="SC">SC - Santa Cruz</option>
+                            <option value="OR">OR - Oruro</option>
+                            <option value="PT">PT - Potosí</option>
+                            <option value="TJ">TJ - Tarija</option>
+                            <option value="CH">CH - Chuquisaca</option>
+                            <option value="BE">BE - Beni</option>
+                            <option value="PA">PA - Pando</option>
+                        </select>
+                        <span asp-validation-for="ExtensionCi" class="text-danger small"></span>
                     </div>
 
                     <div class="col-md-6">

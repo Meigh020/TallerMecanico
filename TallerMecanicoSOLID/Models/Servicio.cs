@@ -9,11 +9,13 @@ namespace TallerMecanicoSOLID.Models
         public string Nombre { get; set; } = "";
 
 
+
         [Required(ErrorMessage = "Debe seleccionar un tipo de servicio")]
         [RegularExpression(
-            @"^(preventivo|correctivo|revisión simple)$",
+            @"^(preventivo|correctivo|revision_simple)$",
             ErrorMessage = "Seleccione preventivo, correctivo o revisión simple")]
         public string Tipo { get; set; } = "";
+
 
 
         [Required(ErrorMessage = "La descripción es obligatoria")]

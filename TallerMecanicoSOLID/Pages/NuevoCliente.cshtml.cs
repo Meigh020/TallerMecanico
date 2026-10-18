@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
@@ -22,6 +22,12 @@ namespace TallerMecanicoSOLID.Pages
         }
 
         [BindProperty]
+        public string NumeroCi { get; set; } = "";
+
+        [BindProperty]
+        public string ExtensionCi { get; set; } = "";
+
+        [BindProperty]
         public Cliente Cliente { get; set; } = new Cliente
         {
             Estado = true
@@ -42,8 +48,12 @@ namespace TallerMecanicoSOLID.Pages
                 Validaciones.Capitalizar(
                     Validaciones.SanitizarTexto(Cliente.Apellido, 80));
 
-            Cliente.CiNit =
-                Validaciones.SanitizarTexto(Cliente.CiNit, 20).Trim();
+            NumeroCi = (NumeroCi ?? "").Trim();
+            ExtensionCi = (ExtensionCi ?? "").Trim().ToUpperInvariant();
+            string[] extensionesCi = { "CB", "LP", "SC", "OR", "PT", "TJ", "CH", "BE", "PA" };
+            Cliente.CiNit = ExtensionCi.Length > 0
+                ? $"{NumeroCi}-{ExtensionCi}"
+                : NumeroCi;
 
             Cliente.Telefono = Cliente.Telefono?.Trim() ?? "";
 
@@ -58,6 +68,11 @@ namespace TallerMecanicoSOLID.Pages
             // Volver a validar el modelo después de normalizar.
             ModelState.Clear();
             TryValidateModel(Cliente, nameof(Cliente));
+
+            if (ExtensionCi.Length > 0 && !extensionesCi.Contains(ExtensionCi))
+            {
+                ModelState.AddModelError("ExtensionCi", "Seleccione una extensión válida.");
+            }
 
             // Validaciones específicas del negocio.
             if (!Validaciones.ValidarTelefono(Cliente.Telefono))
@@ -88,11 +103,15 @@ namespace TallerMecanicoSOLID.Pages
                     "El apellido solo puede contener letras y espacios.");
             }
 
-            if (!Validaciones.SoloNumeros(Cliente.CiNit))
+            if (!Validaciones.ValidarCiNit(Cliente.CiNit))
             {
                 ModelState.AddModelError(
-                    "Cliente.CiNit",
-                    "El CI/NIT debe contener únicamente números.");
+                    "NumeroCi",
+                    "Ingrese un número de CI válido, con extensión opcional. Ejemplo: 8815391-CB.");
+            }
+            if (!Validaciones.SoloNumeros(NumeroCi))
+            {
+                ModelState.AddModelError("NumeroCi", "El número de CI debe contener solo dígitos.");
             }
 
             if (string.IsNullOrWhiteSpace(Cliente.Telefono))
